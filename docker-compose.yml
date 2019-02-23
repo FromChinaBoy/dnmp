@@ -20,7 +20,8 @@ services:
 #    command: /bin/bash -c "envsubst '$$NGINX_SIMA2_HTTP_HOST_PORT' < /etc/nginx/conf.d/sima2.conf.template > /etc/nginx/conf.d/sima2.conf && envsubst '$$NGINX_STORE_SYSTEM_HTTP_HOST_PORT' < /etc/nginx/conf.d/store_system.conf.template > /etc/nginx/conf.d/store_system.conf  && nginx -g 'daemon off;'"
     restart: always
     networks:
-      - default
+      extnetwork1:
+        ipv4_address: 172.22.0.2
   php72:
     build:
       context: .
@@ -38,8 +39,15 @@ services:
     cap_add:
       - SYS_PTRACE
     networks:
-      - default
+         extnetwork1:
+           ipv4_address: 172.22.0.22
 
+
+networks:
+   extnetwork1:
+      ipam:
+         config:
+         - subnet: 172.22.0.0/16
 #  php56:
 #    build:
 #      context: .
@@ -123,5 +131,5 @@ services:
 #      - REDIS_1_HOST=redis
 #      - REDIS_1_PORT=6379
 
-networks:
-  default:
+#networks:
+#  default:
