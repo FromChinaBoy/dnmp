@@ -34,7 +34,7 @@ services:
     volumes:
       - ${SOURCE_DIR}:/var/www/html/:rw
       - ${PHP72_PHP_CONF_FILE}:/usr/local/etc/php/php.ini:ro
-      - ${PHP72_FPM_CONF_FILE}:/usr/local/etc/php-fpm.d/www.conf:rw
+      - ${PHP72_FPM_CONF_FILE}:/usr/local/etc/php/php-fpm.d/www.conf:rw
     restart: always
     cap_add:
       - SYS_PTRACE
@@ -42,7 +42,7 @@ services:
          extnetwork1:
            ipv4_address: 172.22.0.22
 
-
+##cap_add: - SYS_PTRACE  about https://forums.docker.com/t/security-implications-of-cap-add-sys-ptrace-security-opt-seccomp-unconfined-needed-for-rr/49816
 networks:
    extnetwork1:
       ipam:
