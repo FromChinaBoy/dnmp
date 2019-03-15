@@ -5,8 +5,6 @@ services:
     ports:
       - "${NGINX_HTTP_HOST_PORT}:80"
       - "${NGINX_HTTPS_HOST_PORT}:443"
-      - "${NGINX_SIMA2_HTTP_HOST_PORT}:82"
-      - "${NGINX_STORE_SYSTEM_HTTP_HOST_PORT}:83"
     volumes:
       - ${SOURCE_DIR}:/var/www/html/:rw
       - ${NGINX_CONFD_DIR}:/etc/nginx/conf.d/:rw
@@ -41,8 +39,20 @@ services:
     networks:
          extnetwork1:
            ipv4_address: 172.22.0.22
-
 ##cap_add: - SYS_PTRACE  about https://forums.docker.com/t/security-implications-of-cap-add-sys-ptrace-security-opt-seccomp-unconfined-needed-for-rr/49816
+  mysql:
+    image: mysql:${MYSQL_VERSION}
+    ports:
+      - "${MYSQL_HOST_PORT}:3306"
+    volumes:
+      - ${MYSQL_CONF_FILE}:/etc/mysql/conf.d/mysql.cnf:ro
+      - ${MYSQL_DATA_DIR}:/var/lib/mysql/:rw
+    restart: always
+    networks:
+         extnetwork1:
+           ipv4_address: 172.22.0.4
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
 networks:
    extnetwork1:
       ipam:
